@@ -9,7 +9,8 @@ import rock from "../media/rock.png";
 import paper from "../media/paper.png";
 import scissor from "../media/scissor.png";
 import { Howl, Howler } from "howler";
-import fire from "../media/1.wav";
+import smash from "../media/smash.mp3";
+import win from "../media/win.wav";
 import { ImCross } from "react-icons/im";
 import { AiOutlineReload } from "react-icons/ai";
 import blast from "../media/blast.gif";
@@ -23,11 +24,11 @@ const RockPaper = ({ setCurrentGame }) => {
   const [computerPoint, setComputerPoint] = useState(0);
 
   const fireSound = new Howl({
-    src: [fire],
+    src: [smash],
   });
-  // const winSound = new Howl({
-  //   src: [win],
-  // });
+  const winSound = new Howl({
+    src: [win],
+  });
 
   const options = [
     {
@@ -55,9 +56,13 @@ const RockPaper = ({ setCurrentGame }) => {
       key: "L",
     },
   ];
-  Howler.volume(0.2);
 
-  const startGame = (i) => {
+  const playAudio = () => {
+    Howler.volume(0.2);
+    fireSound.play();
+  };
+
+  const startGame = (i, isToPlayAudio) => {
     setIsDesiding(true);
     setComputerDesicion(0);
     setUserDesicion(0);
@@ -89,28 +94,30 @@ const RockPaper = ({ setCurrentGame }) => {
       } else {
         setWinner("");
       }
-      fireSound.play();
+      if (isToPlayAudio) {
+        playAudio();
+      }
 
       setTimeout(() => {
         setIsDesiding(false);
-        // if (userPoint === 5 || computerPoint === 5) {
-        //   winSound.play();
-        // }
+        if (userPoint === 5 || computerPoint === 5) {
+          winSound.play();
+        }
       }, 700);
     }, 1250);
     setTimeout(() => {
       setComputerDesicion(0);
       setUserDesicion(0);
-    }, 2400);
+    }, 2300);
   };
 
   document.addEventListener("keydown", (e) => {
     if (e.key === "j" && !isDesiding) {
-      startGame(0);
+      startGame(0, false);
     } else if (e.key === "k" && !isDesiding) {
-      startGame(1);
+      startGame(1, false);
     } else if (e.key === "l" && !isDesiding) {
-      startGame(2);
+      startGame(2, false);
     }
   });
 
@@ -173,8 +180,8 @@ const RockPaper = ({ setCurrentGame }) => {
               <h1 className="text-2xl text-center">{userPoint}</h1>
             </div>
           </div>
-          <div className="h-[25rem] flex items-center justify-between">
-            <div className="relative">
+          <div className="h-[21rem] flex items-center justify-between">
+            <div className="relative h-56">
               {winner === "computer" && (
                 <img
                   src={winner === "computer" && blast}
@@ -187,10 +194,10 @@ const RockPaper = ({ setCurrentGame }) => {
                 alt="Left"
                 className={`${
                   isDesiding && "animate-left-hand"
-                } origin-left relative top-5 -left-20 z-30`}
+                } origin-left relative -bottom-10 -left-20 z-30`}
               />
             </div>
-            <div className="relative">
+            <div className="relative h-56">
               {winner === "user" && (
                 <img
                   src={winner === "user" && blast}
@@ -203,7 +210,7 @@ const RockPaper = ({ setCurrentGame }) => {
                 alt="Right"
                 className={`${
                   isDesiding && "animate-right-hand"
-                } origin-right relative top-5 -right-12 z-30`}
+                } origin-right relative -bottom-10 -right-12 z-30`}
               />
             </div>
           </div>
@@ -218,7 +225,7 @@ const RockPaper = ({ setCurrentGame }) => {
                     className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center overflow-hidden relative spin-bg"
                     onClick={() => {
                       if (!isDesiding) {
-                        startGame(i);
+                        startGame(i, true);
                       }
                     }}
                   >
