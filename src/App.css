@@ -1,38 +1,117 @@
-.App {
-  text-align: center;
+.text-stroke {
+  color: white;
+  font-size: 40px;
+  text-shadow: -3px 2px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000,
+    -1px -1px 0 #000;
 }
-
-.App-logo {
-  height: 40vmin;
+::-moz-selection {
+  color: #ffffff;
+  background: #406ba6;
+}
+::selection {
+  color: #ffffff;
+  background: #406ba6;
+}
+.black-selection::selection {
+  color: #000;
+}
+img {
   pointer-events: none;
+  height: max-content;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.text-underline-1,
+.text-underline-2,
+.text-underline-3,
+.text-underline {
+  background-image: linear-gradient(90deg, #e67399, #f2a640);
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+.text-underline {
+  background-size: 13.5rem 35%;
+}
+.text-underline-1 {
+  background-size: 17.5rem 35%;
+}
+.text-underline-2 {
+  background-size: 21rem 35%;
+}
+.text-underline-3 {
+  background-size: 24rem 35%;
+}
+.animate-right-hand {
+  animation: right-hand-animation 0.5s;
+  animation-iteration-count: 3;
+}
+.animate-left-hand {
+  animation: left-hand-animation 0.5s;
+  animation-iteration-count: 3;
+}
+@keyframes left-hand-animation {
+  0% {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(0);
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
+@keyframes right-hand-animation {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+  50% {
+    transform: rotate(45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+.spin-bg::before {
+  background: url("https://i.ibb.co/0DxSN2D/red-yellow-spiral-swirl-radial-background-7280-3947.webp")
+    no-repeat center center;
+  background-size: cover;
+  content: "";
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  animation: spin 4s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
     transform: rotate(360deg);
   }
 }
+/* .hand-move-left {
+  animation: hand-move-left 1.8s linear infinite;
+}
+@keyframes hand-move-left {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.hand-move-right {
+  animation: hand-move-right 1.8s linear infinite;
+}
+@keyframes hand-move-right {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-6px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+} */
