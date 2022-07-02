@@ -10,13 +10,15 @@ import paper from "../media/paper.png";
 import scissor from "../media/scissor.png";
 import { Howl, Howler } from "howler";
 import smash from "../media/smash.mp3";
-import win from "../media/win.wav";
 import { ImCross } from "react-icons/im";
-import { AiOutlineReload } from "react-icons/ai";
+import { AiOutlineReload, AiOutlineQuestion } from "react-icons/ai";
 import blast from "../media/blast.gif";
+import ScoreBar from "./ScoreBar";
 
 const RockPaper = ({ setCurrentGame }) => {
   const [isDesiding, setIsDesiding] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isAboutHovered, setIsAboutHovered] = useState(false);
   const [computerDesicion, setComputerDesicion] = useState(0);
   const [userDesicion, setUserDesicion] = useState(0);
   const [winner, setWinner] = useState("");
@@ -25,9 +27,6 @@ const RockPaper = ({ setCurrentGame }) => {
 
   const fireSound = new Howl({
     src: [smash],
-  });
-  const winSound = new Howl({
-    src: [win],
   });
 
   const options = [
@@ -100,18 +99,16 @@ const RockPaper = ({ setCurrentGame }) => {
 
       setTimeout(() => {
         setIsDesiding(false);
-        if (userPoint === 5 || computerPoint === 5) {
-          winSound.play();
-        }
       }, 700);
     }, 1250);
+
     setTimeout(() => {
       setComputerDesicion(0);
       setUserDesicion(0);
     }, 2300);
   };
 
-  document.addEventListener("keydown", (e) => {
+  window.addEventListener("keydown", (e) => {
     if (e.key === "j" && !isDesiding) {
       startGame(0, false);
     } else if (e.key === "k" && !isDesiding) {
@@ -143,7 +140,7 @@ const RockPaper = ({ setCurrentGame }) => {
                 <br />
                 <div className="flex items-center justify-center space-x-4">
                   <button
-                    className="w-14 h-14 flex items-center justify-center text-xl text-white rounded-full border-2 border-white bg-green-600 hover:bg-green-700 transition-all"
+                    className="w-14 h-14 flex items-center justify-center text-xl text-white rounded-full border-2 border-white bg-indigo-500 hover:bg-indigo-600 transition-all"
                     onClick={() => {
                       setComputerPoint(0);
                       setUserPoint(0);
@@ -152,7 +149,7 @@ const RockPaper = ({ setCurrentGame }) => {
                     <AiOutlineReload />
                   </button>
                   <button
-                    className="w-14 h-14 flex items-center justify-center text-xl text-white rounded-full border-2 border-white bg-indigo-500 hover:bg-indigo-600 transition-all"
+                    className="w-14 h-14 flex items-center justify-center text-xl text-white rounded-full border-2 border-white bg-red-500 hover:bg-red-600 transition-all"
                     onClick={() => setCurrentGame(null)}
                   >
                     <ImCross />
@@ -161,25 +158,11 @@ const RockPaper = ({ setCurrentGame }) => {
               </div>
             </div>
           )}
-          <div className="px-5 flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl">রাসেল</h1>
-              <h1 className="text-2xl text-center">{computerPoint}</h1>
-            </div>
-            <div className="text-3xl">
-              {winner === "computer"
-                ? "বিজয়ী: রাসেল"
-                : winner === "user"
-                ? "বিজয়ী: তুমি"
-                : winner === "draw"
-                ? "স্থগিত"
-                : ""}
-            </div>
-            <div>
-              <h1 className="text-3xl">তুমি</h1>
-              <h1 className="text-2xl text-center">{userPoint}</h1>
-            </div>
-          </div>
+          <ScoreBar
+            userPoint={userPoint}
+            computerPoint={computerPoint}
+            winner={winner}
+          />
           <div className="h-[21rem] flex items-center justify-between">
             <div className="relative h-56">
               {winner === "computer" && (
@@ -214,31 +197,72 @@ const RockPaper = ({ setCurrentGame }) => {
               />
             </div>
           </div>
-          <div className="flex items-center justify-center space-x-6">
-            {options.map((e, i) => {
-              return (
+          <div className="flex items-center justify-between">
+            <div className="relative">
+              {isAboutOpen && (
                 <div
-                  className="flex flex-col items-center justify-center"
-                  key={i}
+                  className="absolute bottom-16 left-12 bg-white p-4 rounded-t-lg rounded-br-xl text-black w-60 z-40"
+                  onMouseOver={() => setIsAboutHovered(true)}
+                  onMouseLeave={() => setIsAboutHovered(false)}
                 >
-                  <div
-                    className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center overflow-hidden relative spin-bg"
-                    onClick={() => {
-                      if (!isDesiding) {
-                        startGame(i, true);
-                      }
-                    }}
-                  >
-                    <img
-                      src={e.img}
-                      alt={e.name}
-                      className={`relative grayscale z-30 ${e.classes}`}
-                    />
-                  </div>
-                  <h1>{e.key} চাপুন</h1>
+                  <span>✊: পাথর, ✋: কাগজ, ✌: কাঁচি।</span>
+                  <br />
+                  <p>
+                    খেলার নিয়ম: বাস্তবে যেমন কাগজ পাথরকে মুড়িয়ে ফেলে, পাথরকে
+                    ভেঙ্গে ফেলে, কাঁচি কাগজ কেটে ফেলে ঠিক তেমনি কেউ পাথর ও অপর
+                    পক্ষ কাগজ করলে কাগজ পক্ষ জয়ী হবে।
+                  </p>
                 </div>
-              );
-            })}
+              )}
+              <button
+                className="w-14 h-14 flex items-center justify-center text-2xl text-white rounded-full border-2 border-white bg-sky-500 hover:bg-sky-600 transition-all m-5"
+                onClick={() => setIsAboutOpen(!isAboutOpen)}
+                onBlur={() => {
+                  if (!isAboutHovered) {
+                    setIsAboutOpen(false);
+                  }
+                }}
+              >
+                <AiOutlineQuestion />
+              </button>
+            </div>
+            <div className="flex items-center justify-center space-x-6">
+              {options.map((e, i) => {
+                return (
+                  <div
+                    className="flex flex-col items-center justify-center"
+                    key={i}
+                  >
+                    <div
+                      className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center overflow-hidden relative spin-bg"
+                      onClick={() => {
+                        if (!isDesiding) {
+                          startGame(i, true);
+                        }
+                      }}
+                    >
+                      <img
+                        src={e.img}
+                        alt={e.name}
+                        className={`relative grayscale z-30 ${e.classes}`}
+                      />
+                    </div>
+                    <h1>{e.key} চাপুন</h1>
+                  </div>
+                );
+              })}
+            </div>
+            <div>
+              <button
+                className="w-14 h-14 flex items-center justify-center text-xl text-white rounded-full border-2 border-white bg-green-500 hover:bg-green-600 transition-all m-5"
+                onClick={() => {
+                  setComputerPoint(0);
+                  setUserPoint(0);
+                }}
+              >
+                <AiOutlineReload />
+              </button>
+            </div>
           </div>
         </div>
       </div>

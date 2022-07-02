@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import RockPaper from "../component/RockPaper";
 import rockPaperGame from "../media/rock-paper.jpg";
+import oddEven from "../media/odd-even.jpg";
+import OddEven from "../component/OddEven";
 
 const Games = () => {
   const [currentGame, setCurrentGame] = useState(null);
@@ -9,6 +11,11 @@ const Games = () => {
       name: "শিলা কাগজ কাঁচি",
       img: rockPaperGame,
       component: <RockPaper setCurrentGame={setCurrentGame} />,
+    },
+    {
+      name: "জোড় বিজোড়",
+      img: oddEven,
+      component: <OddEven setCurrentGame={setCurrentGame} />,
     },
   ];
 
@@ -19,7 +26,8 @@ const Games = () => {
           রাসেলের সাথে খেলি
         </h1>
         {currentGame === 0 && games[0].component}
-        <div className="p-6 grid grid-cols-5">
+        {currentGame === 1 && games[1].component}
+        <div className="p-6 grid grid-cols-5 gap-4">
           {games.map((g, i) => {
             return (
               <div
@@ -29,7 +37,11 @@ const Games = () => {
                 }}
                 key={i}
               >
-                <img src={g.img} alt={g.name} className="w-full" />
+                <img
+                  src={g.img}
+                  alt={g.name}
+                  className="w-full border rounded-md"
+                />
                 <h1 className="text-center mt-2 text-xl">{g.name}</h1>
               </div>
             );
