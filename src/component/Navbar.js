@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavHashLink } from "react-router-hash-link";
+import logo from "../media/icon.png";
 
 const Navbar = () => {
   const [currentLink, setCurrentLink] = useState("");
@@ -22,6 +23,7 @@ const Navbar = () => {
   return (
     <>
       <div className="sticky top-0 bg-white p-3 flex flex-wrap items-center justify-center z-50">
+        <img src={logo} alt="Sheikh Russel" className="w-16" />
         {navs.map((e, i) => {
           return (
             <NavHashLink
