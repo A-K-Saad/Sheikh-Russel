@@ -14,7 +14,7 @@ const PhotoGallery = () => {
 
   return (
     <>
-      <div className="w-full">
+      <div className="w-full bg-gray-100 pt-3" id="photo-gallery">
         <h1 className="mt-3 mb-1 text-center text-xl md:text-4xl font-bold text-stroke text-underline-2">
           শেখ রাসেলের ছবিসমূহ
         </h1>

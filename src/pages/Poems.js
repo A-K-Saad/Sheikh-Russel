@@ -22,7 +22,7 @@ const Poems = () => {
   ];
   return (
     <>
-      <div className="max-w-full py-5">
+      <div className="max-w-full py-5" id="poems">
         <h1 className="mt-3 mb-1 text-center text-xl md:text-4xl font-bold text-stroke text-underline-1">
           শেখ রাসেল কবিতা
         </h1>

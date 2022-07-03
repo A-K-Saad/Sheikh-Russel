@@ -42,7 +42,7 @@ const VideoGallery = () => {
 
   return (
     <>
-      <div className="max-w-full bg-gray-100 pt-4">
+      <div className="max-w-full bg-white pt-4" id="video-gallery">
         <h1 className="mt-3 mb-3 text-center text-xl md:text-4xl font-bold text-stroke text-underline-3">
           শেখ রাসেলের ভিডিওসমূহ
         </h1>

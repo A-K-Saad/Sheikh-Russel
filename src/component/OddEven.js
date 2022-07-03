@@ -209,8 +209,7 @@ const OddEven = ({ setCurrentGame }) => {
                     </span>
                     <input
                       type="range"
-                      name="Somehting"
-                      id="something"
+                      name="numSlider"
                       min="0"
                       max={userPoint}
                       className="num-slider w-full bg-gray-100 z-20"
